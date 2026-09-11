@@ -1,19 +1,20 @@
-name: RegisterAndLoginPlugin-1.21
-<<<<<<< HEAD
-version: 1.0.4
-=======
-version: 1.0.2
->>>>>>> 0c5fda95d35f1942bbb0e2f8c8608d2972b759ba
-main: chfeng.ciyueaiwan.registerAndLoginPlugin121.RegisterAndLoginPlugin121
+name: RegisterAndLoginPlugin
+version: 1.2.0
+main: chfeng.ciyueaiwan.registerandloginplugin.RegisterAndLoginPlugin
 api-version: 1.21
 load: STARTUP
-authors: ["ciyueaiwan"]
-description: 登录注册插件，防止账号被盗
+authors: [chfeng]
+description: Lightweight password authentication plugin for Purpur/Paper 1.21.
 commands:
   register:
-    description: 注册账号
-    usage: /register <密码> <确认密码>
+    description: Register an account
+    usage: /register <password> <password>
+    aliases: [reg]
   login:
-    description: 登录账号
-    usage: /login <密码>
+    description: Login to your account, OP subcommand /login update to check Modrinth updates
+    usage: /login <password> | /login update
     aliases: [l]
+  changepassword:
+    description: Change your password after login
+    usage: /changepassword <oldPassword> <newPassword>
+    aliases: [cp]
