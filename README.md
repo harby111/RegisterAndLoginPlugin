@@ -1,61 +1,41 @@
 # Register And Login Plugin
-轻量级离线模式服务器登录注册插件，有效防止离线服务器账号被盗。
+Lightweight offline‑mode server registration & login plugin to prevent account theft on offline servers.
 
-## ✨功能
-1. **注册系统**
-指令：`/register <密码> <确认密码>`
-未注册玩家无法移动、聊天、破坏方块、拾取掉落物等，仅能执行注册指令。两次输入密码必须保持一致，注册成功自动登录。
-
-2. **登录系统**
-指令：`/login <密码>`
-已注册玩家进入服务器处于锁定状态，无法移动、聊天，输入正确密码登录后解除全部限制。
-
-3. **数据持久化**
-玩家账号密码保存在 `plugins/RegisterAndLoginPlugin/accounts/玩家UUID.txt`
-使用玩家UUID作为文件名存储账号信息，不怕玩家改名导致账号丢失，服务器重启数据不会丢失。
-
-4. **安全防护**
-登录错误超过三次封禁IP30秒，防止暴力破解
-
-## ⚙️支持服务端
-✅ Paper 1.21 ~ 26.2
-> 0c5fda95d35f1942bbb0e2f8c8608d2972b759ba
-✅ Purpur 1.21.x
-❌ 不支持 Spigot、Fabric、26.1 系列新版本
-
-## 📂开源信息
-本项目采用 MIT License 开源
-源码仓库：https://github.com/chfengciyueaiwan/RegisterAndLoginPlugin
-欢迎提交反馈与PR，共同完善插件。
-
----
-
-# Register And Login Plugin
-A lightweight offline-mode server registration and login plugin, effectively preventing account theft on offline servers.
-
-## ✨Features
+## ✨ Features
 1. **Registration System**
-Command: `/register <password> <confirm password>`
-Unregistered players cannot move, chat, break blocks, pick up dropped items, etc., and can only execute the registration command. The two password entries must match. Successful registration automatically logs the player in.
+Command: `/register <password> <confirmPassword>`
+Unregistered players cannot move or chat, and may only run the register command. The two entered passwords must match. Players will be logged in automatically upon successful registration.
 
 2. **Login System**
 Command: `/login <password>`
-Registered players enter the server in a locked state, unable to move or chat. Entering the correct password logs them in and removes all restrictions.
+Registered players join the server in a locked state, unable to move or chat. All restrictions will be lifted after entering the correct password.
+OPs can run `/login update` to check for new versions on Modrinth. Tab‑completion for `update` is only visible to operators.
 
-3. **Data Persistence**
-Player account passwords are saved in `plugins/RegisterAndLoginPlugin/accounts/playerUUID.txt`
-The player's UUID is used as the filename to store account information, so name changes won't cause account loss. Server restarts will not result in data loss.
+3. **Change Password**
+Command: `/changepassword <oldPassword> <newPassword>`
+Players must log in first before modifying their password.
 
-4. **Security Protection**
-Exceeding three failed login attempts results in a 30-second IP ban to prevent brute-force attacks.
+4. **Persistent Data Storage**
+Player accounts and passwords are saved at `plugins/RegisterAndLoginPlugin/accounts/PlayerUUID.txt`.
+Account files use player UUID as filename, so accounts will not be lost even if players change their in‑game username. All data survives server restarts.
 
-## ⚙️Supported Server Versions
-✅ Paper 1.21 ~ 26.2
-> 0c5fda95d35f1942bbb0e2f8c8608d2972b759ba
+5. **Security Protection**
+Players will be kicked if they fail to log in within 60 seconds after joining. Passwords are stored as SHA‑256 hashes instead of plain text.
+
+6. **Customizable Messages**
+All in‑game messages can be modified inside `lang.yml`.
+
+## ⚙️ Supported Servers
+✅ Paper 1.21.x
 ✅ Purpur 1.21.x
-❌ Spigot, Fabric, and 26.1 series new versions are not supported.
+❌ Not compatible with Spigot, Fabric.
 
-## 📂Open Source Information
-This project is open-sourced under the MIT License.
-Source repository: https://github.com/chfengciyueaiwan/RegisterAndLoginPlugin
-Feedback and pull requests are welcome to help improve the plugin.
+## 🎉 Version Changelog
+v1.2.0: Added `/changepassword` command; Added OP‑only `/login update` version checker; Added tab‑completion for `/login update` (only visible to operators); Code optimization.
+
+Planned features: 2‑day auto‑login for offline players.
+
+## 📂 Open Source Information
+This project is open‑sourced under the MIT License
+Source Repository: https://github.com/chfengciyueaiwan/RegisterAndLoginPlugin
+Feedback and pull requests are welcome to improve this plugin.
