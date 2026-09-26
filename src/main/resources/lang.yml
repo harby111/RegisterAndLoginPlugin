@@ -20,7 +20,7 @@ plugin:
 only_player: "§cThis command can only be used by players."
 
 login:
-  no_account: "§cYou don't have an account. Use /register to register."
+  no_account: "§cYou don't have an account. Use /register <password> <password>."
   already: "§aYou are already logged in."
   usage: "§eUsage: /login <password>"
   hash_fail: "§cInternal error, hash failed."
