@@ -9,11 +9,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
@@ -35,7 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, CommandExecutor, TabCompleter {
-    public static final String VERSION = "1.2.0";
+    public static final String VERSION = "1.2.1";
     public static final String MODRINTH_SLUG = "register-and-login-plugin";
     private final Map<UUID, String> accountPassword = new HashMap<>();
     private final Map<UUID, Boolean> loggedIn = new HashMap<>();
@@ -72,9 +76,25 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
         String msg = langConfig.getString(key, key);
         for (int i = 0; i < replace.length; i += 2) {
             if (i + 1 >= replace.length) break;
-            msg = msg.replace(replace[i], replace[i+1]);
+            msg = msg.replace(replace[i], replace[i + 1]);
         }
         return msg;
+    }
+
+    private void applyLoginRestrictions(Player player) {
+        // Infinite Blindness until login
+        player.addPotionEffect(new PotionEffect(
+                PotionEffectType.BLINDNESS,
+                Integer.MAX_VALUE,
+                0,
+                false,
+                false,
+                false
+        ));
+    }
+
+    private void removeLoginRestrictions(Player player) {
+        player.removePotionEffect(PotionEffectType.BLINDNESS);
     }
 
     private void startTimeoutKick(Player player) {
@@ -235,6 +255,7 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
             if (storedHash.equals(inputHash)) {
                 loggedIn.put(uuid, true);
                 cancelTimeout(uuid);
+                removeLoginRestrictions(player);
                 player.sendMessage(getLang("login.success"));
                 getLogger().info("Player " + player.getName() + " logged in.");
             } else {
@@ -277,6 +298,7 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
             accountPassword.put(uuid, hash);
             loggedIn.put(uuid, true);
             cancelTimeout(uuid);
+            removeLoginRestrictions(player);
             player.sendMessage(getLang("register.success"));
             getLogger().info(getLang("register.log", "%player%", player.getName(), "%ip%", ip));
             return true;
@@ -336,9 +358,9 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
         loggedIn.put(uuid, false);
         cancelTimeout(uuid);
         startTimeoutKick(player);
-        String ip = null;
+        applyLoginRestrictions(player);
         try {
-            ip = player.getAddress().getAddress().getHostAddress();
+            player.getAddress().getAddress().getHostAddress();
         } catch (Exception ex) {
             getLogger().warning(getLang("plugin.ip_err", "%player%", player.getName()));
         }
@@ -352,10 +374,21 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
+        Player player = e.getPlayer();
+        UUID uuid = player.getUniqueId();
         cancelTimeout(uuid);
         loggedIn.put(uuid, false);
         accountPassword.remove(uuid);
+        removeLoginRestrictions(player);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player player)) return;
+        UUID uuid = player.getUniqueId();
+        if (!loggedIn.getOrDefault(uuid, false)) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
