@@ -20,7 +20,7 @@ plugin:
 only_player: "§cThis command can only be used by players."
 
 login:
-  no_account: "§cYou don't have an account. Use /register <password> <password>."
+  no_account: "§cYou don't have an account. Use /reg <password> <password>."
   already: "§aYou are already logged in."
   usage: "§eUsage: /login <password>"
   hash_fail: "§cInternal error, hash failed."
@@ -30,7 +30,7 @@ login:
 
 register:
   exists: "§cYou already have an account, please login."
-  usage: "§eUsage: /register <password> <password>"
+  usage: "§eUsage: /reg <password> <password>"
   short: "§cPassword must be at least 4 characters long."
   mismatch: "§cPasswords do not match."
   hash_fail: "§cInternal error, hash failed."
@@ -45,7 +45,7 @@ cp:
   success: "§aPassword changed successfully!"
 
 join:
-  new: "§eWelcome! Please register with /register <password> <password> within 60s."
+  new: "§eWelcome! Please register with /reg <password> <password> within 60s."
   old: "§eWelcome back! Please login with /login <password> within 60s."
 
 move:
