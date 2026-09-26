@@ -39,7 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, CommandExecutor, TabCompleter {
-    public static final String VERSION = "1.2.1";
+    public static final String VERSION = "1.2.2";
     public static final String MODRINTH_SLUG = "register-and-login-plugin";
     private final Map<UUID, String> accountPassword = new HashMap<>();
     private final Map<UUID, Boolean> loggedIn = new HashMap<>();
@@ -79,6 +79,10 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
             msg = msg.replace(replace[i], replace[i + 1]);
         }
         return msg;
+    }
+
+    private boolean isPreventDamageEnabled() {
+        return getConfig().getBoolean("prevent-damage", true);
     }
 
     private void applyLoginRestrictions(Player player) {
@@ -187,6 +191,7 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         loadLang();
         getLogger().info(getLang("plugin.enable", "%version%", VERSION));
         accountsFolder = new File(getDataFolder(), "accounts");
@@ -384,6 +389,7 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
+        if (!isPreventDamageEnabled()) return;
         if (!(e.getEntity() instanceof Player player)) return;
         UUID uuid = player.getUniqueId();
         if (!loggedIn.getOrDefault(uuid, false)) {

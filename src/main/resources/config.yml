@@ -1,0 +1,5 @@
+# RegisterAndLoginPlugin Configuration
+
+# Prevent all damage (fall, fire, mobs, PvP, etc.) while the player is not logged in.
+# Set to false to allow damage before login.
+prevent-damage: true
