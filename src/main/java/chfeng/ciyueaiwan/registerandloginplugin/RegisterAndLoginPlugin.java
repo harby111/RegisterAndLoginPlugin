@@ -86,7 +86,6 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
     }
 
     private void applyLoginRestrictions(Player player) {
-        // Infinite Blindness until login
         player.addPotionEffect(new PotionEffect(
                 PotionEffectType.BLINDNESS,
                 Integer.MAX_VALUE,
