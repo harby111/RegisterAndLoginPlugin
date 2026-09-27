@@ -33,6 +33,8 @@ All in‑game messages can be modified inside `lang.yml`.
 ## 🎉 Version Changelog
 v1.2.0: Added `/changepassword` command; Added OP‑only `/login update` version checker; Added tab‑completion for `/login update` (only visible to operators); Code optimization.
 
+v1.2.1: Prevent Damage if the player didn't logged; Player got Blindness Effect until he login
+
 Planned features: 2‑day auto‑login for offline players.
 
 ## 📂 Open Source Information
