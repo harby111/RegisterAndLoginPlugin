@@ -39,7 +39,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, CommandExecutor, TabCompleter {
-    public static final String VERSION = "1.2.2";
+    public static final String VERSION = "1.2.1";
     public static final String MODRINTH_SLUG = "register-and-login-plugin";
     private final Map<UUID, String> accountPassword = new HashMap<>();
     private final Map<UUID, Boolean> loggedIn = new HashMap<>();
