@@ -17,5 +17,6 @@ show-title: true
 # Auto-login if the player's IP matches the IP saved on last successful login
 auto-login-by-ip: true
 
-# Allow only one account per IP address
-one-account-per-ip: true
+# Maximum number of accounts allowed per IP address
+# Set to 0 to disable the limit (unlimited)
+max-accounts-for-ip: 1

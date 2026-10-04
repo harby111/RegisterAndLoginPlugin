@@ -65,7 +65,10 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
     private boolean isBlockInteractionsEnabled() { return cfg("block-interactions", true); }
     private boolean isShowTitleEnabled() { return cfg("show-title", true); }
     private boolean isAutoLoginByIpEnabled() { return cfg("auto-login-by-ip", true); }
-    private boolean isOneAccountPerIpEnabled() { return cfg("one-account-per-ip", true); }
+
+    private int getMaxAccountsPerIp() {
+        return getConfig().getInt("max-accounts-for-ip", 1);
+    }
 
     private String sha256Hash(String rawText) {
         try {
@@ -132,11 +135,6 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
         return data == null ? null : data[0];
     }
 
-    private String loadPlayerIp(UUID uuid) {
-        String[] data = loadAccountData(uuid);
-        return data == null ? null : data[1];
-    }
-
     private void savePlayerPassword(UUID uuid, String hash, String ip) {
         try {
             Files.writeString(getPlayerFile(uuid), hash + "|" + (ip == null ? "" : ip));
@@ -145,20 +143,21 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
         }
     }
 
-    private boolean isIpAlreadyUsed(String ip) {
-        if (ip == null || ip.isEmpty() || accountsFolder == null) return false;
+    private int countAccountsForIp(String ip) {
+        if (ip == null || ip.isEmpty() || accountsFolder == null) return 0;
         File[] files = accountsFolder.listFiles((dir, name) -> name.endsWith(".txt"));
-        if (files == null) return false;
+        if (files == null) return 0;
+        int count = 0;
         for (File f : files) {
             try {
                 String content = Files.readString(f.toPath()).trim();
                 String[] parts = content.split("\\|", 2);
                 if (parts.length > 1 && ip.equals(parts[1])) {
-                    return true;
+                    count++;
                 }
             } catch (IOException ignored) {}
         }
-        return false;
+        return count;
     }
 
     private boolean isLoggedIn(Player player) {
@@ -323,7 +322,7 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
             }
             if (storedHash.equals(inputHash)) {
                 String ip = getPlayerIp(player);
-                savePlayerPassword(uuid, storedHash, ip); 
+                savePlayerPassword(uuid, storedHash, ip);
                 loggedIn.put(uuid, true);
                 cancelTimeout(uuid);
                 removeLoginRestrictions(player);
@@ -361,7 +360,8 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
             }
 
             String ip = getPlayerIp(player);
-            if (isOneAccountPerIpEnabled() && isIpAlreadyUsed(ip)) {
+            int maxAccounts = getMaxAccountsPerIp();
+            if (maxAccounts > 0 && countAccountsForIp(ip) >= maxAccounts) {
                 player.sendMessage(getLang("register.ip_used"));
                 return true;
             }
@@ -443,7 +443,7 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
                 loggedIn.put(uuid, true);
                 player.sendMessage(getLang("auto_login.success"));
                 getLogger().info("Auto-login: " + player.getName() + " (IP match)");
-                return; 
+                return;
             }
         }
 
