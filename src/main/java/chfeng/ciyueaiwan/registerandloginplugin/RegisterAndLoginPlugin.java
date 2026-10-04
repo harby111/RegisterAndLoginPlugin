@@ -111,7 +111,6 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
         return new File(accountsFolder, uuid + ".txt").toPath();
     }
 
-    /** Returns [0]=hash, [1]=ip  or null if no account */
     private String[] loadAccountData(UUID uuid) {
         Path file = getPlayerFile(uuid);
         if (!Files.exists(file)) return null;
@@ -146,7 +145,6 @@ public class RegisterAndLoginPlugin extends JavaPlugin implements Listener, Comm
         }
     }
 
-    /** Returns true if any account file already uses this IP */
     private boolean isIpAlreadyUsed(String ip) {
         if (ip == null || ip.isEmpty() || accountsFolder == null) return false;
         File[] files = accountsFolder.listFiles((dir, name) -> name.endsWith(".txt"));

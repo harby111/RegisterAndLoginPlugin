@@ -36,6 +36,7 @@ register:
   hash_fail: "§cInternal error, hash failed."
   success: "§aRegistered and logged in successfully!"
   log: "New account registered. Player: %player%, IP: %ip%"
+  ip_used: "§cThis IP already has an account. You cannot register another one."
 
 cp:
   no_account: "§cYou don't have an account."
@@ -62,9 +63,6 @@ title:
 
 auto_login:
   success: "§aWelcome back! Auto-logged in."
-
-register:
-  ip_used: "§cYou cannot register another one."
 
 command:
   blocked: "§cYou must login or register before using commands."
