@@ -1,0 +1,73 @@
+timeout:
+  kick_msg: "§cYou took too long to login. Please rejoin."
+
+update:
+  checking: "§aChecking for Modrinth updates..."
+  check_failed: "§cUpdate check failed, cannot connect to Modrinth API."
+  no_perm: "§cYou don't have permission to use this subcommand."
+  found: "§eNew version found! Local: v%local% | Latest: v%latest%"
+  latest: "§aYou are running the latest plugin version."
+
+plugin:
+  enable: "§aRegisterAndLoginPlugin v%version% Enabled!"
+  disable: "§cRegisterAndLoginPlugin Disabled."
+  read_err: "§cFailed to read account file: %uuid%"
+  save_err: "§cFailed to save account file: %uuid%"
+  cmd_register: "§cRegister command not found in plugin.yml!"
+  cmd_login: "§cLogin command not found in plugin.yml!"
+  ip_err: "§cFailed to get IP of player %player%"
+
+only_player: "§cThis command can only be used by players."
+
+login:
+  no_account: "§cYou don't have an account. Use /reg <password> <password>."
+  already: "§aYou are already logged in."
+  usage: "§eUsage: /login <password>"
+  hash_fail: "§cInternal error, hash failed."
+  success: "§aLogin successful!"
+  wrong: "§cIncorrect password."
+  wrong_log: "Failed login attempt from player %player%."
+
+register:
+  exists: "§cYou already have an account, please login."
+  usage: "§eUsage: /reg <password> <password>"
+  short: "§cPassword must be at least 4 characters long."
+  mismatch: "§cPasswords do not match."
+  hash_fail: "§cInternal error, hash failed."
+  success: "§aRegistered and logged in successfully!"
+  log: "New account registered. Player: %player%, IP: %ip%"
+
+cp:
+  no_account: "§cYou don't have an account."
+  must_login: "§cYou must login before changing your password."
+  usage: "§eUsage: /changepassword <oldPassword> <newPassword>"
+  old_wrong: "§cOld password is incorrect."
+  success: "§aPassword changed successfully!"
+
+join:
+  new: "§eWelcome! Please register with /reg <password> <password> within 60s."
+  old: "§eWelcome back! Please login with /login <password> within 60s."
+
+move:
+  new: "§cYou need to register before moving."
+  old: "§cYou need to login before moving."
+
+chat:
+  new: "§cYou need to register before chatting."
+  old: "§cYou need to login before chatting."
+
+title:
+  reg: "§e/reg <password> <password>"
+  login: "§e/login <password>"
+
+auto_login:
+  success: "§aWelcome back! Auto-logged in."
+
+register:
+  ip_used: "§cYou cannot register another one."
+
+command:
+  blocked: "§cYou must login or register before using commands."
+
+interact:
+  blocked: "§cYou must login or register before doing that."

@@ -1,0 +1,20 @@
+name: RegisterAndLoginPlugin
+version: 1.2.2
+main: chfeng.ciyueaiwan.registerandloginplugin.RegisterAndLoginPlugin
+api-version: 1.21
+load: STARTUP
+authors: [chfeng]
+description: Lightweight password authentication plugin for Purpur/Paper 1.21.
+commands:
+  register:
+    description: Register an account
+    usage: /register <password> <password>
+    aliases: [reg]
+  login:
+    description: Login to your account, OP subcommand /login update to check Modrinth updates
+    usage: /login <password> | /login update
+    aliases: [l]
+  changepassword:
+    description: Change your password after login
+    usage: /changepassword <oldPassword> <newPassword>
+    aliases: [cp]

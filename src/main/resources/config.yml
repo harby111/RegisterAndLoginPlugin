@@ -1,0 +1,21 @@
+# RegisterAndLoginPlugin Configuration
+
+# Prevent all damage while the player is not logged in
+prevent-damage: true
+
+# Block all commands (except /login, /register, /changepassword) while not logged in
+block-commands: true
+
+# Block interactions: place/break blocks, hit entities, eat, use items, drop items
+block-interactions: true
+
+# Show a title on the center of the screen on join
+# No account  -> /reg <password> <password>
+# Has account -> /login <password>
+show-title: true
+
+# Auto-login if the player's IP matches the IP saved on last successful login
+auto-login-by-ip: true
+
+# Allow only one account per IP address
+one-account-per-ip: true
